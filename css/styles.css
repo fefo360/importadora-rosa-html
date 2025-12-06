@@ -1,0 +1,15 @@
+/* Custom styles for Importadora Rosa */
+
+/* Equivalent to @layer base in Tailwind */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Equivalent to @layer utilities in Tailwind */
+.text-shadow {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+}
