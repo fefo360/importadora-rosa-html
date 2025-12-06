@@ -89,7 +89,10 @@
         <section id="hero" class="relative h-screen flex items-center justify-center">
           <!-- Background Image -->
           <div class="absolute inset-0 z-0">
-            <img src="images/cover-photo-2.png" alt="Importadora Rosa - Vehículos de Calidad" class="object-cover object-center w-full h-full">
+            <picture class="w-full h-full">
+            <source media="(min-width: 768px)" srcset="images/cover-photo-2.png">
+            <img src="images/cover-photo-mobile.png" alt="Importadora Rosa - Vehículos de Calidad" class="object-cover object-center w-full h-full">
+          </picture>
             <!-- Dark overlay -->
             <div class="absolute inset-0 bg-black bg-opacity-40"></div>
           </div>
