@@ -64,17 +64,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Route to detalle.html
             card.href = `detalle.html?id=${listingId}`;
-            card.className = "group bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col transform hover:-translate-y-1";
+            card.className = 'group bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 flex flex-row sm:flex-col overflow-hidden cursor-pointer';
             
             const mainImg = (listing.images && listing.images.length > 0) ? listing.images[0] : 'images/importadora-rosa-logo.jpg';
             
+            // For a list view on mobile, we use w-2/5 or w-1/3 for the image, and the rest for text. On sm+ screens, it restores to grid stacked view.
             card.innerHTML = `
-                <div class="relative h-56 overflow-hidden bg-gray-100">
+                <div class="relative w-2/5 sm:w-full h-32 sm:h-56 flex-shrink-0 overflow-hidden bg-gray-100">
                     <img src="${mainImg}" alt="${listing.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                 </div>
-                <div class="p-5 flex flex-col flex-grow">
-                    <h3 class="text-lg md:text-xl font-bold text-gray-800 leading-tight group-hover:text-blue-600 transition-colors mb-2">${listing.title}</h3>
-                    <p class="text-2xl font-black text-gray-900 mt-auto">${listing.price_text}</p>
+                <div class="p-3 sm:p-5 flex flex-col flex-grow justify-center sm:justify-start">
+                    <h3 class="text-sm sm:text-lg md:text-xl font-bold text-gray-800 leading-tight group-hover:text-blue-600 transition-colors mb-1 sm:mb-2 line-clamp-3 sm:line-clamp-none">${listing.title}</h3>
+                    <p class="text-lg sm:text-2xl font-black text-gray-900 mt-1 sm:mt-auto">${listing.price_text}</p>
                 </div>
             `;
             grid.appendChild(card);
@@ -92,9 +93,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            // Normalize terms to ignore hyphens (crv matches cr-v, f150 matches f-150, etc.)
+            const normalizedTerms = terms.map(t => t.replace(/-/g, ''));
+
             const filtered = allListings.filter(l => {
                 const searchableText = `${l.title || ''} ${l.brand || ''} ${l.model || ''} ${l.year || ''}`.toLowerCase();
-                return terms.every(term => searchableText.includes(term));
+                const normalizedText = searchableText.replace(/-/g, '');
+                
+                return normalizedTerms.every(term => normalizedText.includes(term));
             });
             renderCards(filtered);
         });
